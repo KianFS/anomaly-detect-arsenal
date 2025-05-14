@@ -1,30 +1,18 @@
-
-export type SeverityLevel = 'low' | 'medium' | 'high' | 'critical';
-
 export interface Detection {
-  id: string;
-  timestamp: string;
   path: string;
-  threat: string;
-  description: string;
-  severity: SeverityLevel;
-  isKnownPattern: boolean;
-  affectedFiles: string[];
-  recommendation: string;
-  details?: {
-    attackVector?: string;
-    technique?: string;
-    potentialImpact?: string;
-    indicators?: string[];
-  };
+  type: 'ADDED' | 'MODIFIED' | 'DELETED';
+  timestamp: string;
+  severity: 'HIGH' | 'MEDIUM' | 'LOW';
+  size: number;
+  mtime: number;
+  mode: string;
+  sha256: string;
 }
 
 export interface FileStatus {
-  totalScanned: number;
+  isMonitoring: boolean;
+  baselinePath: string;
   lastScan: string;
-  filesMonitored: number;
-  suspiciousFiles: number;
-  modifiedFiles: number;
 }
 
 export interface SystemStatus {
@@ -33,4 +21,11 @@ export interface SystemStatus {
   diskUsage: number;
   lastUpdateTime: string;
   status: 'healthy' | 'warning' | 'critical';
+}
+
+declare module "@/components/ui/badge" {
+  export const Badge: React.FC<{
+    variant?: 'default' | 'secondary' | 'destructive' | 'outline' | 'warning';
+    children: React.ReactNode;
+  }>;
 }

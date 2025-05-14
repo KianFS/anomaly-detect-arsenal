@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -10,7 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApp } from "../contexts/AppContext";
 
 const SettingsPanel = () => {
-  const { isMonitoring, toggleMonitoring } = useApp();
+  const { 
+    isMonitoring, 
+    toggleMonitoring, 
+    monitoredPath, 
+    setMonitoredPath,
+    createNewBaseline,
+    performScan
+  } = useApp();
   
   return (
     <div>
@@ -31,20 +37,37 @@ const SettingsPanel = () => {
                 <CardDescription>Configure how the file system is monitored</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="path">Directory Path</Label>
+                  <Input 
+                    id="path" 
+                    value={monitoredPath}
+                    onChange={(e) => setMonitoredPath(e.target.value)}
+                    placeholder="/path/to/monitor"
+                  />
+                </div>
+                
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="monitoring">Enable File System Monitoring</Label>
+                    <Label htmlFor="monitoring">Monitoring Status</Label>
                     <p className="text-sm text-muted-foreground">
-                      {isMonitoring 
-                        ? "File system monitoring is active" 
-                        : "File system monitoring is currently disabled"}
+                      {isMonitoring ? "Active" : "Inactive"}
                     </p>
                   </div>
                   <Switch 
                     id="monitoring" 
                     checked={isMonitoring} 
-                    onCheckedChange={toggleMonitoring} 
+                    onCheckedChange={toggleMonitoring}
                   />
+                </div>
+                
+                <div className="flex gap-4">
+                  <Button onClick={createNewBaseline}>
+                    Create Baseline
+                  </Button>
+                  <Button onClick={performScan}>
+                    Scan Directory
+                  </Button>
                 </div>
                 
                 <Separator />
@@ -60,14 +83,6 @@ const SettingsPanel = () => {
                 </div>
                 
                 <Separator />
-                
-                <div className="space-y-2">
-                  <Label htmlFor="path">Monitoring Paths</Label>
-                  <Input id="path" defaultValue="/usr,/var,/home" />
-                  <p className="text-xs text-muted-foreground">
-                    Comma-separated list of directories to monitor
-                  </p>
-                </div>
                 
                 <div className="space-y-2">
                   <Label htmlFor="exclude">Exclude Paths</Label>

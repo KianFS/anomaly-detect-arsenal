@@ -1,34 +1,58 @@
-
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Detection, FileStatus, SystemStatus } from '../types';
-import { mockDetections, mockFileStatus, mockSystemStatus } from '../services/mockData';
+import { Detection, FileStatus } from '../types';
+import { createBaseline, scanDirectory } from '../services/fileSystemService';
 
 interface AppContextType {
   detections: Detection[];
   fileStatus: FileStatus;
-  systemStatus: SystemStatus;
-  selectedDetection: Detection | null;
   isMonitoring: boolean;
-  setSelectedDetection: (detection: Detection | null) => void;
   toggleMonitoring: () => void;
-  dismissDetection: (id: string) => void;
+  createNewBaseline: (path: string) => Promise<void>;
+  performScan: (path: string) => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [detections, setDetections] = useState<Detection[]>(mockDetections);
-  const [fileStatus, setFileStatus] = useState<FileStatus>(mockFileStatus);
-  const [systemStatus, setSystemStatus] = useState<SystemStatus>(mockSystemStatus);
-  const [selectedDetection, setSelectedDetection] = useState<Detection | null>(null);
-  const [isMonitoring, setIsMonitoring] = useState<boolean>(true);
+  const [detections, setDetections] = useState<Detection[]>([]);
+  const [fileStatus, setFileStatus] = useState<FileStatus>({
+    isMonitoring: false,
+    baselinePath: '',
+    lastScan: new Date().toISOString()
+  });
+  const [isMonitoring, setIsMonitoring] = useState<boolean>(false);
 
   const toggleMonitoring = () => {
     setIsMonitoring(!isMonitoring);
   };
 
-  const dismissDetection = (id: string) => {
-    setDetections(detections.filter(detection => detection.id !== id));
+  const createNewBaseline = async (path: string) => {
+    try {
+      await createBaseline(path);
+      setFileStatus(prev => ({
+        ...prev,
+        baselinePath: path,
+        lastScan: new Date().toISOString()
+      }));
+      alert('Baseline created successfully');
+    } catch (error) {
+      console.error('Error creating baseline:', error);
+      throw error;
+    }
+  };
+
+  const performScan = async (path: string) => {
+    try {
+      const newDetections = await scanDirectory(path);
+      setDetections(newDetections);
+      setFileStatus(prev => ({
+        ...prev,
+        lastScan: new Date().toISOString()
+      }));
+    } catch (error) {
+      console.error('Error scanning directory:', error);
+      throw error;
+    }
   };
 
   return (
@@ -36,12 +60,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       value={{
         detections,
         fileStatus,
-        systemStatus,
-        selectedDetection,
         isMonitoring,
-        setSelectedDetection,
         toggleMonitoring,
-        dismissDetection
+        createNewBaseline,
+        performScan
       }}
     >
       {children}
