@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "../contexts/AppContext";
@@ -8,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import MonitoringView from "./MonitoringView";
 import { getDetectionCountBySeverity } from "../services/mockData";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { Link } from "react-router-dom";
 
 // Mock data for the timeline chart
 const timelineData = [
