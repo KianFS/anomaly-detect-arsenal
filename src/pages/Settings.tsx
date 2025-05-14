@@ -1,16 +1,16 @@
 
 import Layout from "../components/Layout";
-import Dashboard from "../components/Dashboard";
+import SettingsPanel from "../components/SettingsPanel";
 import { AppProvider } from "../contexts/AppContext";
 
-const Index = () => {
+const Settings = () => {
   return (
     <AppProvider>
       <Layout>
-        <Dashboard />
+        <SettingsPanel />
       </Layout>
     </AppProvider>
   );
 };
 
-export default Index;
+export default Settings;
