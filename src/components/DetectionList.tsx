@@ -5,6 +5,19 @@ import { Card } from "@/components/ui/card";
 const DetectionList = () => {
   const { detections } = useApp();
 
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'HIGH':
+        return 'bg-red-500 text-white hover:bg-red-600';
+      case 'MEDIUM':
+        return 'bg-yellow-500 text-white hover:bg-yellow-600';
+      case 'LOW':
+        return 'bg-green-500 text-white hover:bg-green-600';
+      default:
+        return 'bg-gray-500 text-white';
+    }
+  };
+
   if (detections.length === 0) {
     return (
       <div className="text-center p-4 text-muted-foreground">
@@ -24,12 +37,7 @@ const DetectionList = () => {
                 {detection.type} - {new Date(detection.timestamp).toLocaleString()}
               </p>
             </div>
-            <Badge 
-              variant={
-                detection.severity === 'HIGH' ? 'destructive' :
-                detection.severity === 'MEDIUM' ? 'warning' : 'secondary'
-              }
-            >
+            <Badge className={`${getSeverityColor(detection.severity)}`}>
               {detection.severity}
             </Badge>
           </div>

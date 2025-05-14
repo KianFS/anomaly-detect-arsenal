@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import DetectionList from "./DetectionList";
 import { useState } from "react";
+import DetectionStats from "./DetectionStats";
 
 const Dashboard = () => {
   const { 
@@ -77,15 +78,18 @@ const Dashboard = () => {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Detections</CardTitle>
-          <Badge variant="outline">{detections.length} found</Badge>
-        </CardHeader>
-        <CardContent>
-          <DetectionList />
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <DetectionStats />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Detections</CardTitle>
+            <Badge variant="outline">{detections.length} found</Badge>
+          </CardHeader>
+          <CardContent>
+            <DetectionList />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
