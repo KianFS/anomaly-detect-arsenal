@@ -1,4 +1,16 @@
+## File System Analysis-Based Attack Detector
+
 ## Project info
+
+This is a software prototype that analyzes file system data to detect cyberattacks through monitoring known and unknown suspicious patterns.
+
+## Main Outcomes:
+
+•	Automated file system monitoring.
+•	Detection of known and anomalous attack patterns.
+•	Attack severity classification.
+•	Generation of detailed reports.
+•	Extendibility for future enhancements.
 
 
 **Use your preferred IDE**
