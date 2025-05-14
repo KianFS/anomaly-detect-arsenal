@@ -2,7 +2,7 @@
 
 ## Project info
 
-This is a software prototype that analyzes file system data to detect cyberattacks through monitoring known and unknown suspicious patterns.
+This Appilcation analyzes your file system data to detect cyberattacks through monitoring known and unknown suspicious patterns.
 
 ## Main Outcomes:
 
