@@ -1,62 +1,95 @@
-## File System Analysis-Based Attack Detector
+# File System Attack Detector
 
-## Project info
+A web-based tool for monitoring file system changes and detecting potentially malicious files. This application helps identify suspicious files and modifications in your selected directories through baseline comparison and risk assessment.
 
-This Appilcation analyzes your file system data to detect cyberattacks through monitoring known and unknown suspicious patterns.
+## Installation and Setup
 
-## Main Outcomes:
+1. **Clone the Repository**
+   ```bash
+   git clone <repository-url>
+   cd anomaly-detect-arsenal
+   ```
 
-•	Automated file system monitoring.
-•	Detection of known and anomalous attack patterns.
-•	Attack severity classification.
-•	Generation of detailed reports.
-•	Extendibility for future enhancements.
+2. **Install Dependencies**
+   ```bash
+   # Using npm
+   npm install
+   # OR using bun
+   bun install
+   ```
 
+3. **Run the Application**
+   ```bash
+   # Using npm
+   npm run dev
+   # OR using bun
+   bun run dev
+   ```
 
-**Use your preferred IDE**
+4. **Access the Application**
+   - Open your browser
+   - Navigate to link diplayed in the termial for local server
+   - The web interface should now be running
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. 
+## How to Use
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Initial Setup**
+   - Open the web application
+   - You'll see a text input field for the directory path
+   - Enter any path (this is just for reference)
+   - Click "Create Baseline"
+   - The system will prompt you for directory access permission
+   - Select the directory you want to monitor
+   - Grant the necessary permissions when prompted
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+2. **Creating a Baseline**
+   - After selecting your directory, the system creates a baseline
+   - The baseline is a snapshot of all files in your selected directory
+   - This baseline will be used to detect any future changes
 
 
+3. **Testing the Detection System**
+   For a quick demo of the system's capabilities:
+   - Add a new file to your monitored directory
+   - For example, create a file named "mimikatz_copy.exe" 
+     (This is a known malicious file pattern that the system will detect as HIGH risk)
+   - Or add "update_installer.exe" 
+     (This will be detected as MEDIUM risk due to suspicious naming patterns)
+
+4. **Scanning for Changes**
+   - Click "Scan Directory"
+   - Select the same directory when prompted
+   - The system will analyze all changes since the baseline
+   - You'll see:
+     - A pie chart showing the distribution of risk levels (HIGH, MEDIUM, LOW)
+     - A detailed list of all detected changes
+
+5. **Understanding the Results**
+   - Each detection shows:
+     - File path
+     - Type of change (ADDED, MODIFIED, DELETED)
+     - Risk level (color-coded: RED for HIGH, YELLOW for MEDIUM, GREEN for LOW)
+     - File details (size, modification time, hash)
+   - The statistics section shows:
+     - Total number of detections
+     - Distribution of risk levels
+     
+
+## Risk Levels
+
+- **HIGH**: Known malicious patterns, suspicious double extensions, system file masquerading
+- **MEDIUM**: Potentially suspicious names, unusual locations, script files
+- **LOW**: Common file modifications, standard executables
+
+The system uses pattern matching and contextual analysis to determine risk levels, helping you identify potential security threats in your file system.
+
+
+
+**Build and Development**
+   - Vite (v5.4.1) - Build tool and development server
+   - TypeScript (v5.5.3) - Type checking and compilation
+   - SWC (via @vitejs/plugin-react-swc) - Fast JavaScript/TypeScript compiler
+
+**Styling Tools**
+   - Tailwind CSS (v3.4.11) - Utility-first CSS framework
+   - PostCSS (v8.4.47) - CSS processing
